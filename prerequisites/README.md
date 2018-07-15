@@ -3,7 +3,7 @@
 Please follow the steps below to modify the boot setting and install the package.
 The file you need is attached.
 
-1.  Copy and change the devicetree.dtb in the SD_CARD.
+1.  Copy and change the devicetree.dtb in the SD\_CARD.
 
 2.  Stop the autostart at the booting stage, and then use type the cmds below:
      setenv bootargs 'console=ttyPS0,115200 mem=256M root=/dev/mmcblk0p2 rw earlyprintk rootfstype=ext4 rootwait devtmpfs.mount=1 uio_pdrv_genirq.of_id="generic-uio"'
