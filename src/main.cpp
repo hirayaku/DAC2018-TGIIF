@@ -39,7 +39,7 @@
 #include "ssd_detector.hpp"
 #include "prior_boxes.hpp"
 #include "neon_math.hpp"
-#include "exp_lut.hpp"
+//#include "exp_lut.hpp"
 #include "SoftmaxTable.hpp"
 
 using namespace std;
