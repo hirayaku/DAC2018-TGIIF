@@ -3,7 +3,7 @@ import time
 import xml.dom.minidom
 
 
-BATCH_SIZE = 500
+BATCH_SIZE = 5
 CUR_DIR = os.getcwd()
 DAC_CONTEST = os.path.join(CUR_DIR, '../')
 IMG_DIR = os.path.join(CUR_DIR, './images')
