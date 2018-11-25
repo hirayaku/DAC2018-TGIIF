@@ -1,0 +1,2329 @@
+name: "VGG_tgiif_test"
+layer {
+  name: "data"
+  type: "AnnotatedData"
+  top: "data"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  transform_param {
+    mean_value: 104.0
+    mean_value: 117.0
+    mean_value: 123.0
+    resize_param {
+      prob: 1.0
+      resize_mode: WARP
+      height: 252
+      width: 448
+      interp_mode: LINEAR
+    }
+  }
+  data_param {
+    source: "example_0.7/val_lmdb"
+    batch_size: 1
+    multi_gpu_testing: false
+    backend: LMDB
+  }
+  annotated_data_param {
+    batch_sampler {
+    }
+    label_map_file: "lists/labelmap.prototxt"
+  }
+}
+
+layer {
+  name: "data_fixed"
+  type: "FixedNeuron"
+  bottom: "data"
+  top: "data"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv1_1"
+  type: "ConvolutionBNFixed"
+  bottom: "data"
+  top: "conv1_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu1_1"
+  type: "ReLU"
+  bottom: "conv1_1"
+  top: "conv1_1"
+}
+layer {
+  name: "conv1_1_fixed"
+  type: "FixedNeuron"
+  bottom: "conv1_1"
+  top: "conv1_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv1_2"
+  type: "ConvolutionBNFixed"
+  bottom: "conv1_1"
+  top: "conv1_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu1_2"
+  type: "ReLU"
+  bottom: "conv1_2"
+  top: "conv1_2"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1_2"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "pool1_fixed"
+  type: "FixedNeuron"
+  bottom: "pool1"
+  top: "pool1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv2_1"
+  type: "ConvolutionBNFixed"
+  bottom: "pool1"
+  top: "conv2_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu2_1"
+  type: "ReLU"
+  bottom: "conv2_1"
+  top: "conv2_1"
+}
+layer {
+  name: "conv2_1_fixed"
+  type: "FixedNeuron"
+  bottom: "conv2_1"
+  top: "conv2_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv2_2"
+  type: "ConvolutionBNFixed"
+  bottom: "conv2_1"
+  top: "conv2_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu2_2"
+  type: "ReLU"
+  bottom: "conv2_2"
+  top: "conv2_2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2_2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "pool2_fixed"
+  type: "FixedNeuron"
+  bottom: "pool2"
+  top: "pool2"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv3_1"
+  type: "ConvolutionBNFixed"
+  bottom: "pool2"
+  top: "conv3_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu3_1"
+  type: "ReLU"
+  bottom: "conv3_1"
+  top: "conv3_1"
+}
+layer {
+  name: "conv3_1_fixed"
+  type: "FixedNeuron"
+  bottom: "conv3_1"
+  top: "conv3_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv3_2"
+  type: "ConvolutionBNFixed"
+  bottom: "conv3_1"
+  top: "conv3_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu3_2"
+  type: "ReLU"
+  bottom: "conv3_2"
+  top: "conv3_2"
+}
+layer {
+  name: "conv3_2_fixed"
+  type: "FixedNeuron"
+  bottom: "conv3_2"
+  top: "conv3_2"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv3_3"
+  type: "ConvolutionBNFixed"
+  bottom: "conv3_2"
+  top: "conv3_3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu3_3"
+  type: "ReLU"
+  bottom: "conv3_3"
+  top: "conv3_3"
+}
+layer {
+  name: "pool3"
+  type: "Pooling"
+  bottom: "conv3_3"
+  top: "pool3"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "pool3_fixed"
+  type: "FixedNeuron"
+  bottom: "pool3"
+  top: "pool3"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv4_1"
+  type: "ConvolutionBNFixed"
+  bottom: "pool3"
+  top: "conv4_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu4_1"
+  type: "ReLU"
+  bottom: "conv4_1"
+  top: "conv4_1"
+}
+layer {
+  name: "conv4_1_fixed"
+  type: "FixedNeuron"
+  bottom: "conv4_1"
+  top: "conv4_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv4_2"
+  type: "ConvolutionBNFixed"
+  bottom: "conv4_1"
+  top: "conv4_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu4_2"
+  type: "ReLU"
+  bottom: "conv4_2"
+  top: "conv4_2"
+}
+layer {
+  name: "conv4_2_fixed"
+  type: "FixedNeuron"
+  bottom: "conv4_2"
+  top: "conv4_2"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv4_3"
+  type: "ConvolutionBNFixed"
+  bottom: "conv4_2"
+  top: "conv4_3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu4_3"
+  type: "ReLU"
+  bottom: "conv4_3"
+  top: "conv4_3"
+}
+layer {
+  name: "pool4"
+  type: "Pooling"
+  bottom: "conv4_3"
+  top: "pool4"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "pool4_fixed"
+  type: "FixedNeuron"
+  bottom: "pool4"
+  top: "pool4"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv5_1"
+  type: "ConvolutionBNFixed"
+  bottom: "pool4"
+  top: "conv5_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu5_1"
+  type: "ReLU"
+  bottom: "conv5_1"
+  top: "conv5_1"
+}
+layer {
+  name: "conv5_1_fixed"
+  type: "FixedNeuron"
+  bottom: "conv5_1"
+  top: "conv5_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv5_2"
+  type: "ConvolutionBNFixed"
+  bottom: "conv5_1"
+  top: "conv5_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu5_2"
+  type: "ReLU"
+  bottom: "conv5_2"
+  top: "conv5_2"
+}
+layer {
+  name: "conv5_2_fixed"
+  type: "FixedNeuron"
+  bottom: "conv5_2"
+  top: "conv5_2"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv5_3"
+  type: "ConvolutionBNFixed"
+  bottom: "conv5_2"
+  top: "conv5_3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu5_3"
+  type: "ReLU"
+  bottom: "conv5_3"
+  top: "conv5_3"
+}
+layer {
+  name: "pool5"
+  type: "Pooling"
+  bottom: "conv5_3"
+  top: "pool5"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 1
+    pad: 1
+  }
+}
+layer {
+  name: "pool5_fixed"
+  type: "FixedNeuron"
+  bottom: "pool5"
+  top: "pool5"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "fc6_1"
+  type: "ConvolutionBNFixed"
+  bottom: "pool5"
+  top: "fc6"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 1024
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu6"
+  type: "ReLU"
+  bottom: "fc6"
+  top: "fc6"
+}
+layer {
+  name: "fc6_fixed"
+  type: "FixedNeuron"
+  bottom: "fc6"
+  top: "fc6"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "fc7_2"
+  type: "ConvolutionBNFixed"
+  bottom: "fc6"
+  top: "fc7"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 1024
+    bias_term: false
+    kernel_size: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "relu7"
+  type: "ReLU"
+  bottom: "fc7"
+  top: "fc7"
+}
+layer {
+  name: "fc7_fixed"
+  type: "FixedNeuron"
+  bottom: "fc7"
+  top: "fc7"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv6_1"
+  type: "ConvolutionBNFixed"
+  bottom: "fc7"
+  top: "conv6_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv6_1_relu"
+  type: "ReLU"
+  bottom: "conv6_1"
+  top: "conv6_1"
+}
+layer {
+  name: "conv6_1_fixed"
+  type: "FixedNeuron"
+  bottom: "conv6_1"
+  top: "conv6_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv6_2"
+  type: "ConvolutionBNFixed"
+  bottom: "conv6_1"
+  top: "conv6_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv6_2_relu"
+  type: "ReLU"
+  bottom: "conv6_2"
+  top: "conv6_2"
+}
+layer {
+  name: "conv6_2_fixed"
+  type: "FixedNeuron"
+  bottom: "conv6_2"
+  top: "conv6_2"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv7_1"
+  type: "ConvolutionBNFixed"
+  bottom: "conv6_2"
+  top: "conv7_1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv7_1_relu"
+  type: "ReLU"
+  bottom: "conv7_1"
+  top: "conv7_1"
+}
+layer {
+  name: "conv7_1_fixed"
+  type: "FixedNeuron"
+  bottom: "conv7_1"
+  top: "conv7_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv7_2"
+  type: "ConvolutionBNFixed"
+  bottom: "conv7_1"
+  top: "conv7_2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv7_2_relu"
+  type: "ReLU"
+  bottom: "conv7_2"
+  top: "conv7_2"
+}
+layer {
+  name: "conv7_2_fixed"
+  type: "FixedNeuron"
+  bottom: "conv7_2"
+  top: "conv7_2"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+
+layer {
+  name: "conv4_3_norm_mbox_loc"
+  type: "ConvolutionBNFixed"
+  bottom: "conv4_3"
+  top: "conv4_3_norm_mbox_loc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 16 # 32
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv4_3_norm_mbox_loc_perm"
+  type: "Permute"
+  bottom: "conv4_3_norm_mbox_loc"
+  top: "conv4_3_norm_mbox_loc_perm"
+  permute_param {
+    order: 0
+    order: 2
+    order: 3
+    order: 1
+  }
+}
+layer {
+  name: "conv4_3_norm_mbox_loc_flat"
+  type: "Flatten"
+  bottom: "conv4_3_norm_mbox_loc_perm"
+  top: "conv4_3_norm_mbox_loc_flat"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "conv4_3_norm_mbox_conf"
+  type: "ConvolutionBNFixed"
+  bottom: "conv4_3"
+  top: "conv4_3_norm_mbox_conf"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 396 # 792 #32
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv4_3_norm_mbox_conf_perm"
+  type: "Permute"
+  bottom: "conv4_3_norm_mbox_conf"
+  top: "conv4_3_norm_mbox_conf_perm"
+  permute_param {
+    order: 0
+    order: 2
+    order: 3
+    order: 1
+  }
+}
+layer {
+  name: "conv4_3_norm_mbox_conf_flat"
+  type: "Flatten"
+  bottom: "conv4_3_norm_mbox_conf_perm"
+  top: "conv4_3_norm_mbox_conf_flat"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "conv4_3_norm_mbox_priorbox"
+  type: "PriorBox"
+  bottom: "conv4_3"
+  bottom: "data"
+  top: "conv4_3_norm_mbox_priorbox"
+  prior_box_param {
+    # min_size: 15
+    min_size: 30
+    # max_size: 33
+    max_size: 66
+    aspect_ratio: 2
+    flip: true
+    clip: false
+    variance: 0.1
+    variance: 0.1
+    variance: 0.2
+    variance: 0.2
+    step: 8
+    offset: 0.5
+  }
+}
+layer {
+  name: "fc7_mbox_loc"
+  type: "ConvolutionBNFixed"
+  bottom: "fc7"
+  top: "fc7_mbox_loc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 24
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "fc7_mbox_loc_perm"
+  type: "Permute"
+  bottom: "fc7_mbox_loc"
+  top: "fc7_mbox_loc_perm"
+  permute_param {
+    order: 0
+    order: 2
+    order: 3
+    order: 1
+  }
+}
+layer {
+  name: "fc7_mbox_loc_flat"
+  type: "Flatten"
+  bottom: "fc7_mbox_loc_perm"
+  top: "fc7_mbox_loc_flat"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "fc7_mbox_conf"
+  type: "ConvolutionBNFixed"
+  bottom: "fc7"
+  top: "fc7_mbox_conf"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 594 # 24
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "fc7_mbox_conf_perm"
+  type: "Permute"
+  bottom: "fc7_mbox_conf"
+  top: "fc7_mbox_conf_perm"
+  permute_param {
+    order: 0
+    order: 2
+    order: 3
+    order: 1
+  }
+}
+layer {
+  name: "fc7_mbox_conf_flat"
+  type: "Flatten"
+  bottom: "fc7_mbox_conf_perm"
+  top: "fc7_mbox_conf_flat"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "fc7_mbox_priorbox"
+  type: "PriorBox"
+  bottom: "fc7"
+  bottom: "data"
+  top: "fc7_mbox_priorbox"
+  prior_box_param {
+    min_size: 66
+    max_size: 127
+    aspect_ratio: 2
+    aspect_ratio: 3
+    flip: true
+    clip: false
+    variance: 0.1
+    variance: 0.1
+    variance: 0.2
+    variance: 0.2
+    step: 16
+    offset: 0.5
+  }
+}
+layer {
+  name: "conv6_2_mbox_loc"
+  type: "ConvolutionBNFixed"
+  bottom: "conv6_2"
+  top: "conv6_2_mbox_loc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 24
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv6_2_mbox_loc_perm"
+  type: "Permute"
+  bottom: "conv6_2_mbox_loc"
+  top: "conv6_2_mbox_loc_perm"
+  permute_param {
+    order: 0
+    order: 2
+    order: 3
+    order: 1
+  }
+}
+layer {
+  name: "conv6_2_mbox_loc_flat"
+  type: "Flatten"
+  bottom: "conv6_2_mbox_loc_perm"
+  top: "conv6_2_mbox_loc_flat"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "conv6_2_mbox_conf"
+  type: "ConvolutionBNFixed"
+  bottom: "conv6_2"
+  top: "conv6_2_mbox_conf"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 594 # 24
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv6_2_mbox_conf_perm"
+  type: "Permute"
+  bottom: "conv6_2_mbox_conf"
+  top: "conv6_2_mbox_conf_perm"
+  permute_param {
+    order: 0
+    order: 2
+    order: 3
+    order: 1
+  }
+}
+layer {
+  name: "conv6_2_mbox_conf_flat"
+  type: "Flatten"
+  bottom: "conv6_2_mbox_conf_perm"
+  top: "conv6_2_mbox_conf_flat"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "conv6_2_mbox_priorbox"
+  type: "PriorBox"
+  bottom: "conv6_2"
+  bottom: "data"
+  top: "conv6_2_mbox_priorbox"
+  prior_box_param {
+    min_size: 127
+    max_size: 188
+    aspect_ratio: 2
+    aspect_ratio: 3
+    flip: true
+    clip: false
+    variance: 0.1
+    variance: 0.1
+    variance: 0.2
+    variance: 0.2
+    step: 32
+    offset: 0.5
+  }
+}
+layer {
+  name: "conv7_2_mbox_loc"
+  type: "ConvolutionBNFixed"
+  bottom: "conv7_2"
+  top: "conv7_2_mbox_loc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 24
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv7_2_mbox_loc_perm"
+  type: "Permute"
+  bottom: "conv7_2_mbox_loc"
+  top: "conv7_2_mbox_loc_perm"
+  permute_param {
+    order: 0
+    order: 2
+    order: 3
+    order: 1
+  }
+}
+layer {
+  name: "conv7_2_mbox_loc_flat"
+  type: "Flatten"
+  bottom: "conv7_2_mbox_loc_perm"
+  top: "conv7_2_mbox_loc_flat"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "conv7_2_mbox_conf"
+  type: "ConvolutionBNFixed"
+  bottom: "conv7_2"
+  top: "conv7_2_mbox_conf"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 594 # 24
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  batch_norm_param {
+    scale_filler {
+      type: "constant"
+      value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "conv7_2_mbox_conf_perm"
+  type: "Permute"
+  bottom: "conv7_2_mbox_conf"
+  top: "conv7_2_mbox_conf_perm"
+  permute_param {
+    order: 0
+    order: 2
+    order: 3
+    order: 1
+  }
+}
+layer {
+  name: "conv7_2_mbox_conf_flat"
+  type: "Flatten"
+  bottom: "conv7_2_mbox_conf_perm"
+  top: "conv7_2_mbox_conf_flat"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "conv7_2_mbox_priorbox"
+  type: "PriorBox"
+  bottom: "conv7_2"
+  bottom: "data"
+  top: "conv7_2_mbox_priorbox"
+  prior_box_param {
+    min_size: 188
+    max_size: 249
+    aspect_ratio: 2
+    aspect_ratio: 3
+    flip: true
+    clip: false
+    variance: 0.1
+    variance: 0.1
+    variance: 0.2
+    variance: 0.2
+    step: 64
+    offset: 0.5
+  }
+}
+
+layer {
+  name: "mbox_loc"
+  type: "Concat"
+  bottom: "conv4_3_norm_mbox_loc_flat"
+  bottom: "fc7_mbox_loc_flat"
+  bottom: "conv6_2_mbox_loc_flat"
+  bottom: "conv7_2_mbox_loc_flat"
+  top: "mbox_loc"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "mbox_loc_fixed"
+  type: "FixedNeuron"
+  bottom: "mbox_loc"
+  top: "mbox_loc"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "mbox_conf"
+  type: "Concat"
+  bottom: "conv4_3_norm_mbox_conf_flat"
+  bottom: "fc7_mbox_conf_flat"
+  bottom: "conv6_2_mbox_conf_flat"
+  bottom: "conv7_2_mbox_conf_flat"
+  top: "mbox_conf"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "mbox_conf_fixed"
+  type: "FixedNeuron"
+  bottom: "mbox_conf"
+  top: "mbox_conf"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  fixed_param {
+    fixed_method: OVER_FLOW
+    bit_width: 8
+  }
+}
+layer {
+  name: "mbox_priorbox"
+  type: "Concat"
+  bottom: "conv4_3_norm_mbox_priorbox"
+  bottom: "fc7_mbox_priorbox"
+  bottom: "conv6_2_mbox_priorbox"
+  bottom: "conv7_2_mbox_priorbox"
+  top: "mbox_priorbox"
+  concat_param {
+    axis: 2
+  }
+}
+
+
+
+
+layer {
+  name: "mbox_conf_reshape"
+  type: "Reshape"
+  bottom: "mbox_conf"
+  top: "mbox_conf_reshape"
+  reshape_param {
+    shape {
+      dim: 0
+      dim: -1
+      dim: 99
+    }
+  }
+}
+layer {
+  name: "mbox_conf_softmax"
+  type: "Softmax"
+  bottom: "mbox_conf_reshape"
+  top: "mbox_conf_softmax"
+  softmax_param {
+    axis: 2
+  }
+}
+layer {
+  name: "mbox_conf_flatten"
+  type: "Flatten"
+  bottom: "mbox_conf_softmax"
+  top: "mbox_conf_flatten"
+  flatten_param {
+    axis: 1
+  }
+}
+layer {
+  name: "detection_out"
+  type: "DetectionOutput"
+  bottom: "mbox_loc"
+  bottom: "mbox_conf_flatten"
+  bottom: "mbox_priorbox"
+  top: "detection_out"
+  include {
+    phase: TEST
+  }
+  detection_output_param {
+    num_classes: 99
+    share_location: true
+    background_label_id: 0
+    nms_param {
+      nms_threshold: 0.449999988079
+      top_k: 400
+    }
+    save_output_param {
+      output_directory: "/home/chenweicong/code/tgiif/results/SSD_tgiif"
+      output_name_prefix: "comp4_det_test_"
+      output_format: "VOC"
+      label_map_file: "lists/labelmap.prototxt"
+      name_size_file: "lists/tgiif_name_size_0.7.txt"
+      num_test_image: 8903
+    }
+    code_type: CENTER_SIZE
+    keep_top_k: 200
+    confidence_threshold: 0.00999999977648
+  }
+}
+layer {
+  name: "detection_eval"
+  type: "DetectionEvaluate"
+  bottom: "detection_out"
+  bottom: "label"
+  top: "detection_eval"
+  top: "iou_eval"
+  include {
+    phase: TEST
+  }
+  detection_evaluate_param {
+    num_classes: 99
+    background_label_id: 0
+    overlap_threshold: 0.5
+    evaluate_difficult_gt: false
+    name_size_file: "lists/tgiif_name_size_0.7.txt"
+  }
+}
